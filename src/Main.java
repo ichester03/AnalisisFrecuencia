@@ -11,8 +11,8 @@ import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class Main {
-	
-	static int notCounter=-1;
+
+	static int notCounter = -1;
 
 	public static void main(String[] args) {
 
@@ -35,8 +35,8 @@ public class Main {
 			System.out.println(
 					alphabet[i] + " = " + charCounter + " (" + charPercentage(charCounter, nospaces.length()) + "%)");
 			// Almacenamos cada letra con su porcentaje de aparición en el mapa
-			// fallan las que no aparecen 
-			
+			// fallan las que no aparecen
+
 			charCount.put(charPercentage(charCounter, nospaces.length()), alphabet[i]);
 
 		}
@@ -73,8 +73,6 @@ public class Main {
 		ArrayList<Character> orderedFrecuency = new ArrayList<Character>();
 		ArrayList<Character> orderedCharCount = new ArrayList<Character>();
 
-		
-
 		System.out.println("------------------------------------------------------------------");
 		System.out.println("Frecuencias de aparición en el mensage ordenadas: ");
 		NavigableMap<Double, Character> reveresedTreeMap2 = charCount.descendingMap();
@@ -85,7 +83,6 @@ public class Main {
 			orderedCharCount.add(entry.getValue());
 		}
 
-		
 		System.out.println("------------------------------------------------------------------");
 		System.out.println("Frecuencias en castellano ordenadas: ");
 
@@ -96,54 +93,49 @@ public class Main {
 			System.out.println(entry.getKey() + " = " + entry.getValue());
 			orderedFrecuency.add(entry.getValue());
 		}
-		
+
 		System.out.println("======================================================================================");
 		System.out.println("Cambios propuestos: ");
 
-		String temp="";
-		
-			for (int i = 0; i < 5; i++) 
-				for (int j = 0; j < 5; j++) {
+		String temp = "";
+
+		for (int i = 0; i < 5; i++)
+			for (int j = 0; j < 5; j++) {
 				System.out.println(orderedCharCount.get(i) + "--------------->" + orderedFrecuency.get(j));
-				System.out.println(orderedCharCount.get(i+1) + "--------------->" + orderedFrecuency.get(j+1));
-				System.out.println("----------------------------------------------------------------------------------------------------------");
-				System.out.println(Character.getNumericValue(orderedCharCount.get(i)) + "--------------->" + Character.getNumericValue(orderedFrecuency.get(j)));
-				System.out.println(Character.getNumericValue(orderedCharCount.get(i+1)) + "--------------->" + Character.getNumericValue(orderedFrecuency.get(j+1)));
-				System.out.println("======================================================================================");
-				}
-			
-			
-			
-			
-		
-			for (int i = 1; i < 17; i=i+2) {
-				for (int j = 1; j < 10; j++) {
-					System.out.println("i= "+ i + "----j="+j);
-					System.out.println(decrypt(msg,i,j));
-					System.out.println("======================================================================================");
-				}
-				
-				//System.out.println("======================================================================================");
+				System.out.println(orderedCharCount.get(i + 1) + "--------------->" + orderedFrecuency.get(j + 1));
+				System.out.println(
+						"----------------------------------------------------------------------------------------------------------");
+				System.out.println(orderedCharCount.get(i) + "--------------->" + orderedFrecuency.get(j + 1));
+				System.out.println(orderedCharCount.get(i + 1) + "--------------->" + orderedFrecuency.get(j));
+				System.out.println(
+						"======================================================================================");
 			}
-			//System.out.println(decrypt(msg,7,3));
-	
+
+		for (int i = 1; i < 15; i = i + 2) {
+			for (int j = 1; j < 10; j++) {
+				System.out.println("a= " + i + "----b=" + j);
+				System.out.println(decrypt(msg, i, j));
+				System.out.println(
+						"======================================================================================");
+			}
+
+			// System.out.println("======================================================================================");
+		}
+		// System.out.println(decrypt(msg,7,3));
+
 	}
-	
-	
+
 	public static int charDistance(char A1, char A2) {
-		return (Math.abs(Character.toLowerCase(A1)-Character.toLowerCase(A2)));
+		return (Math.abs(Character.toLowerCase(A1) - Character.toLowerCase(A2)));
 	}
 
 	public static double charPercentage(double charCounter, int total) {
-			
-		double result =  charCounter * 100 / total;
-		
-		
 
-		
+		double result = charCounter * 100 / total;
+
 		if (result == 0.0) {
-			result= notCounter;
-			
+			result = notCounter;
+
 		}
 		notCounter--;
 		return result;
@@ -159,42 +151,33 @@ public class Main {
 		}
 		return count;
 	}
-	
-	
-	
-	
+
 	// método para descifrar el texto
-	 public static String decrypt(String input,int FK,int SK) {
-	       String str = "";
-	       int x = 0;
-	       int inverse = 0;
-	       
-	       // find 1 by using modular inverse
-	       // 17 * IN mod 26 == 1
-	       // IN is 0 - infiniti
-	       // if total == 1, then IN is the inverse modular
-	       while(true){
-	         inverse = FK * x % 26;
-	            if(inverse == 1)
-	               break;
-	         x++;
-	       }
-	       
-	       for (int in = 0; in < input.length(); in++) {
-	           char get = input.charAt(in);
-	           if (Character.isLetter(get)) {
-	               // IN *(x-b) mod 26
-	               get = (char)(x * ((get + 'A') - SK) % 26 + 'A');
-	           }
-	           str +=get;
-	       }
-	       return str;
-	   }
-	
-	
-	
-    
-	
-	
+	public static String decrypt(String input, int FK, int SK) {
+		String str = "";
+		int x = 0;
+		int inverse = 0;
+
+		// find 1 by using modular inverse
+		// 17 * IN mod 26 == 1
+		// IN is 0 - infiniti
+		// if total == 1, then IN is the inverse modular
+		while (true) {
+			inverse = FK * x % 26;
+			if (inverse == 1)
+				break;
+			x++;
+		}
+
+		for (int in = 0; in < input.length(); in++) {
+			char get = input.charAt(in);
+			if (Character.isLetter(get)) {
+				// IN *(x-b) mod 26
+				get = (char) (x * ((get + 'A') - SK) % 26 + 'A');
+			}
+			str += get;
+		}
+		return str;
+	}
 
 }
